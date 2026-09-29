@@ -2,8 +2,9 @@ import { ImageSourcePropType } from 'react-native';
 export const artwork = {
   logo: require('../assets/win-beast-zoo-logo.png'),
   map: require('../assets/win-beast-zoo-map.png'),
+  entrance: require('../assets/win-beast-zoo-entrance.jpg'),
   onboarding: [
-    require('../assets/win-beast-zoo-entrance.jpg'),
+    require('../assets/win-beast-zoo-welcome.png'),
     require('../assets/win-beast-zoo-entrance.jpg'),
     require('../assets/win-beast-zoo-waterfall.jpg'),
     require('../assets/win-beast-zoo-savannah.jpg'),

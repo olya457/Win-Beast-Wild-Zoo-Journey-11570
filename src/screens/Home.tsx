@@ -36,7 +36,7 @@ export function Home({ navigation }: Nav) {
         ]}
       >
         <Image
-          source={artwork.onboarding[0]}
+          source={artwork.entrance}
           resizeMode="cover"
           style={[
             homeStyles.bannerImage,

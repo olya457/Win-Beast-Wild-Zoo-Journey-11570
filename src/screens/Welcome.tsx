@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import {
   Image,
   ImageBackground,
@@ -13,21 +13,30 @@ import LinearGradient from 'react-native-linear-gradient';
 import { WebView } from 'react-native-webview';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { artwork } from '../data/catalog';
+import { loaderHtml } from '../data/loaderHtml';
 import { Button, colors, Label, Title } from '../components/ui';
 import { ScreenProps } from '../navigation/types';
 import { FadeIn } from '../components/FadeIn';
 import { useLayout } from '../hooks/useLayout';
 import { useApp } from '../store/AppStore';
-const html = `<!DOCTYPE html><html><meta name="viewport" content="width=device-width,initial-scale=1"><style>body{margin:0;background:transparent;color:#9b91a5;font:12px -apple-system,sans-serif}.row{display:flex;justify-content:space-between;margin:12px 0}.track{height:4px;background:#ffffff22;border-radius:8px;overflow:hidden}.fill{height:100%;width:0;background:linear-gradient(90deg,#40f49a,#b250ff);animation:load 4s linear forwards}@keyframes load{to{width:100%}}</style><div class="row"><span>Loading your experience</span><span id="p">0%</span></div><div class="track"><div class="fill"></div></div><script>let start=Date.now();let timer=setInterval(()=>{let n=Math.min(100,Math.floor((Date.now()-start)/40));document.getElementById('p').textContent=n+'%';if(n===100){clearInterval(timer);window.ReactNativeWebView.postMessage('finished')}},40)</script></html>`;
+const loaderSource = { html: loaderHtml };
 export function Loader({ onComplete }: { onComplete: () => void }) {
   const { height, width } = useWindowDimensions();
   const inset = useSafeAreaInsets();
-  useEffect(() => {
-    const t = setTimeout(onComplete, 4000);
-    return () => clearTimeout(t);
+  const completed = useRef(false);
+  const finish = useCallback(() => {
+    if (!completed.current) {
+      completed.current = true;
+      onComplete();
+    }
   }, [onComplete]);
+  useEffect(() => {
+    const timeout = setTimeout(finish, 12000);
+    return () => clearTimeout(timeout);
+  }, [finish]);
+  const logoSize = Math.min(width * 0.77, height * 0.4, 320);
   return (
-    <ImageBackground source={artwork.onboarding[0]} style={{ flex: 1 }}>
+    <ImageBackground source={artwork.entrance} style={{ flex: 1 }}>
       <LinearGradient
         colors={['#08031677', '#0c031baa', '#0c031bef']}
         style={StyleSheet.absoluteFill}
@@ -40,17 +49,24 @@ export function Loader({ onComplete }: { onComplete: () => void }) {
           paddingTop: inset.top,
         }}
       >
-        <Image
-          source={artwork.logo}
-          style={{
-            width: Math.min(width * 0.77, height * 0.42, 320),
-            height: Math.min(width * 0.77, height * 0.42, 320),
-            borderRadius: 28,
-          }}
-        />
+        <View
+          style={[
+            loaderStyles.logoFrame,
+            { width: logoSize, height: logoSize },
+          ]}
+        >
+          <LinearGradient
+            pointerEvents="none"
+            colors={['#40f49a99', '#a851eacc', '#23d5b188']}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 1 }}
+            style={StyleSheet.absoluteFill}
+          />
+          <Image source={artwork.logo} style={loaderStyles.logo} />
+        </View>
         <View
           style={{
-            marginTop: Math.min(height * 0.07, 70),
+            marginTop: Math.min(height * 0.13, 110),
             alignItems: 'center',
           }}
         >
@@ -70,19 +86,29 @@ export function Loader({ onComplete }: { onComplete: () => void }) {
       </View>
       <View
         style={{
-          height: 75,
-          marginHorizontal: 16,
-          marginBottom: Math.max(inset.bottom, 18),
+          height: 56,
+          flexShrink: 0,
+          marginHorizontal: 14,
+          marginBottom: Math.max(inset.bottom + 8, 24),
         }}
       >
         <WebView
-          source={{ html }}
+          source={loaderSource}
+          javaScriptEnabled
+          opaque={false}
+          bounces={false}
+          overScrollMode="never"
+          showsVerticalScrollIndicator={false}
+          showsHorizontalScrollIndicator={false}
+          automaticallyAdjustContentInsets={false}
+          contentInsetAdjustmentBehavior="never"
+          containerStyle={loaderStyles.webContainer}
           originWhitelist={['*']}
           scrollEnabled={false}
-          style={{ backgroundColor: 'transparent' }}
+          style={loaderStyles.webView}
           onMessage={event => {
             if (event.nativeEvent.data === 'finished') {
-              onComplete();
+              finish();
             }
           }}
         />
@@ -115,8 +141,17 @@ const slides = [
 export function Onboarding({ navigation }: ScreenProps<'Onboarding'>) {
   const [index, setIndex] = useState(0);
   const { update } = useApp();
-  const { height, compact, padding } = useLayout();
+  const { height, width, compact, padding } = useLayout();
+  const [imageWidth, setImageWidth] = useState(width);
   const insets = useSafeAreaInsets();
+  const heroHeight = Math.max(240, height * (compact ? 0.38 : 0.55));
+  const imageHeight = (imageWidth * 852) / 394;
+  const logoCenters = [295, 270, 210, 130, 160];
+  const logoTarget = Math.max(insets.top + 80, heroHeight * 0.46);
+  const imageTop = Math.max(
+    heroHeight - imageHeight,
+    Math.min(0, logoTarget - (logoCenters[index] * imageWidth) / 394),
+  );
   const finish = async () => {
     await update(s => ({ ...s, onboarded: true }));
     navigation.replace('Tickets', { initial: true });
@@ -130,12 +165,24 @@ export function Onboarding({ navigation }: ScreenProps<'Onboarding'>) {
         showsVerticalScrollIndicator={false}
       >
         <FadeIn replayKey={index} style={{ flex: 1 }}>
-          <ImageBackground
-            source={artwork.onboarding[index]}
-            style={{ height: Math.max(170, height * (compact ? 0.38 : 0.55)) }}
+          <View
+            onLayout={event => setImageWidth(event.nativeEvent.layout.width)}
+            style={{ height: heroHeight, overflow: 'hidden' }}
           >
+            <Image
+              source={artwork.onboarding[index]}
+              resizeMode="cover"
+              style={{
+                position: 'absolute',
+                left: 0,
+                top: imageTop,
+                width: imageWidth,
+                height: imageHeight,
+              }}
+            />
             <LinearGradient
-              colors={['#0c031b22', '#0c031b33', colors.bg]}
+              colors={['#0c031b18', '#0c031b18', colors.bg]}
+              locations={[0, 0.6, 1]}
               style={StyleSheet.absoluteFill}
             />
             <Pressable
@@ -163,7 +210,7 @@ export function Onboarding({ navigation }: ScreenProps<'Onboarding'>) {
             >
               <Text style={{ fontSize: 25 }}>🦁</Text>
             </View>
-          </ImageBackground>
+          </View>
           <View style={{ padding, gap: compact ? 12 : 18 }}>
             <Title>{slides[index][0]}</Title>
             <Label muted>{slides[index][1]}</Label>
@@ -208,3 +255,10 @@ export function Onboarding({ navigation }: ScreenProps<'Onboarding'>) {
     </View>
   );
 }
+
+const loaderStyles = StyleSheet.create({
+  logoFrame: { padding: 1.5, borderRadius: 29, overflow: 'hidden' },
+  logo: { width: '100%', height: '100%', borderRadius: 27.5 },
+  webContainer: { flex: 1, backgroundColor: 'transparent' },
+  webView: { flex: 1, height: 56, backgroundColor: 'transparent' },
+});
