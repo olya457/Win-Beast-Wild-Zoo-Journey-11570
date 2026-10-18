@@ -1,4 +1,4 @@
-package com.winbeastwildzoojourney
+package com.winbeastwild.zoojourney
 
 import android.os.Bundle
 import com.facebook.react.ReactActivity
