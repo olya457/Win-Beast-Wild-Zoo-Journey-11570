@@ -22,7 +22,7 @@ const Tabs = createBottomTabNavigator();
 const tabIcons = ({ route }: { route: { name: string } }) => ({
   headerShown: false,
   tabBarActiveTintColor: colors.green,
-  tabBarInactiveTintColor: '#82758f',
+  tabBarInactiveTintColor: colors.muted,
   tabBarIcon: ({ color }: { color: string }) => (
     <Icon name={route.name} color={color} />
   ),
@@ -37,7 +37,7 @@ function Main() {
         tabBarLabelPosition: 'below-icon',
         tabBarHideOnKeyboard: true,
         tabBarStyle: {
-          backgroundColor: colors.bg,
+          backgroundColor: colors.card,
           borderTopColor: colors.line,
           height: 60 + inset.bottom,
           paddingTop: 8,

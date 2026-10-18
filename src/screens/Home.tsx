@@ -36,7 +36,7 @@ export function Home({ navigation }: Nav) {
         ]}
       >
         <Image
-          source={artwork.entrance}
+          source={artwork.onboarding[4]}
           resizeMode="cover"
           style={[
             homeStyles.bannerImage,
@@ -48,7 +48,7 @@ export function Home({ navigation }: Nav) {
         />
         <LinearGradient
           pointerEvents="none"
-          colors={['#0c031b45', '#0c031b55', '#0c031bd9', colors.bg]}
+          colors={['#103d2b45', '#103d2b55', '#103d2bd9', colors.bg]}
           locations={[0, 0.38, 0.76, 1]}
           style={StyleSheet.absoluteFill}
         />
@@ -75,10 +75,10 @@ export function Home({ navigation }: Nav) {
                 compact && { fontSize: 25, lineHeight: 30 },
               ]}
             >
-              Win Beast Zoo
+              Zoo Adventure
             </Label>
           </View>
-          <Label muted>Organized by Win Beast Casino</Label>
+          <Label muted>Your wildlife adventure starts here</Label>
         </View>
       </View>
       <Title small>Quick Access</Title>
@@ -190,7 +190,7 @@ export function Profile({ navigation }: Nav) {
         </LinearGradient>
         <View style={{ flex: 1 }}>
           <Title small>{state.visitorName || 'Zoo Visitor'}</Title>
-          <Label muted>Win Beast Zoo Guest</Label>
+          <Label muted>Zoo Adventure Guest</Label>
         </View>
         <Label muted>Edit ›</Label>
       </Pressable>
@@ -220,7 +220,7 @@ export function Profile({ navigation }: Nav) {
               <Label
                 style={{ color: colors.green, fontSize: 12, letterSpacing: 1 }}
               >
-                WIN BEAST ZOO
+                Zoo Adventure
               </Label>
               <View
                 style={{

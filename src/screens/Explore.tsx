@@ -99,7 +99,7 @@ export function ZooMap({ navigation }: Nav) {
                         alignItems: 'center',
                         justifyContent: 'center',
                         backgroundColor:
-                          selected === h.id ? colors.green : '#130b26ed',
+                          selected === h.id ? colors.green : '#092b20ed',
                         borderWidth: 2,
                         borderColor: colors.green,
                       }}
@@ -277,7 +277,7 @@ export function Chat() {
                 style={{
                   alignSelf: 'flex-end',
                   maxWidth: '90%',
-                  backgroundColor: '#173036',
+                  backgroundColor: '#21543d',
                   padding: 14,
                   borderRadius: 18,
                   borderTopRightRadius: 4,

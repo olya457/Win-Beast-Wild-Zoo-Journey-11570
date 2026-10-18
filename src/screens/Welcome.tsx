@@ -36,7 +36,7 @@ export function Loader({ onComplete }: { onComplete: () => void }) {
   }, [finish]);
   const logoSize = Math.min(width * 0.77, height * 0.4, 320);
   return (
-    <ImageBackground source={artwork.entrance} style={{ flex: 1 }}>
+    <ImageBackground source={artwork.onboarding[0]} style={{ flex: 1 }}>
       <LinearGradient
         colors={['#08031677', '#0c031baa', '#0c031bef']}
         style={StyleSheet.absoluteFill}
@@ -77,10 +77,10 @@ export function Loader({ onComplete }: { onComplete: () => void }) {
               color: 'white',
             }}
           >
-            WIN BEAST <Text style={{ color: colors.green }}>ZOO</Text>
+            Zoo <Text style={{ color: colors.green }}>Adventure</Text>
           </Text>
           <Label muted style={{ letterSpacing: 2.5, marginTop: 6 }}>
-            BY WIN BEAST CASINO
+            EXPLORE THE WILD
           </Label>
         </View>
       </View>
@@ -118,8 +118,8 @@ export function Loader({ onComplete }: { onComplete: () => void }) {
 }
 const slides = [
   [
-    'Welcome to the Zoo',
-    'Your premium companion for an unforgettable wildlife experience organized by Win Beast Casino. Discover animals, plan your day, and make memories.',
+    'Welcome to Zoo Adventure',
+    'Your premium companion for an unforgettable wildlife experience at Zoo Adventure. Discover animals, plan your day, and make memories.',
   ],
   [
     'Discover Zoo Events',
@@ -181,7 +181,7 @@ export function Onboarding({ navigation }: ScreenProps<'Onboarding'>) {
               }}
             />
             <LinearGradient
-              colors={['#0c031b18', '#0c031b18', colors.bg]}
+              colors={['#103d2b18', '#103d2b18', colors.bg]}
               locations={[0, 0.6, 1]}
               style={StyleSheet.absoluteFill}
             />

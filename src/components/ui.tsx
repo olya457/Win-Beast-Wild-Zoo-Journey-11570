@@ -24,13 +24,13 @@ import {
 } from 'react-native-safe-area-context';
 import Svg, { Path, Circle } from 'react-native-svg';
 export const colors = {
-  bg: '#0c031b',
-  card: '#150b27',
-  line: '#2b1c3e',
+  bg: '#103d2b',
+  card: '#092b20',
+  line: '#477c61',
   green: '#40f49a',
-  muted: '#92869f',
-  white: '#faf7ff',
-  purple: '#b250ff',
+  muted: '#bdd6c7',
+  white: '#f5fff8',
+  purple: '#d5a6ff',
 };
 export const money = (n: number) => `$${n.toFixed(2)}`;
 export function Label({
@@ -148,7 +148,7 @@ export function Button({
       ]}
     >
       <LinearGradient
-        colors={secondary ? ['#192637', '#192031'] : ['#42f397', '#26d1be']}
+        colors={secondary ? ['#21543d', '#173f2e'] : ['#42f397', '#26d1be']}
         start={{ x: 0, y: 0 }}
         end={{ x: 1, y: 1 }}
         pointerEvents="none"
@@ -244,7 +244,7 @@ export function Field({
       value={value}
       onChangeText={onChange}
       placeholder={placeholder}
-      placeholderTextColor="#6f627e"
+      placeholderTextColor={colors.muted}
       multiline={multiline}
       maxLength={multiline ? 1000 : 160}
       style={[
@@ -321,7 +321,7 @@ export function Hero({
         }}
       >
         <LinearGradient
-          colors={['transparent', '#0c031bee']}
+          colors={['transparent', '#092b20ee']}
           style={{ padding: 18, paddingTop: 65 }}
         >
           {subtitle && (
@@ -498,7 +498,7 @@ export const s = StyleSheet.create({
     flexDirection: 'row',
     padding: 4,
     borderRadius: 12,
-    backgroundColor: '#1b102c',
+    backgroundColor: colors.card,
     gap: 4,
   },
   segment: {

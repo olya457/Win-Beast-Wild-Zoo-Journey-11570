@@ -167,7 +167,7 @@ export function TicketSuccess({
         subtitle="Your tickets are saved on this device"
       >
         <Card>
-          <Label style={{ color: colors.green }}>WIN BEAST ZOO</Label>
+          <Label style={{ color: colors.green }}>Zoo Adventure</Label>
           <Title small>Admission Tickets</Title>
           <Row label="Guests" value={String(tickets.length)} />
           <Row
@@ -198,7 +198,7 @@ export function TicketDetail({ navigation, route }: ScreenProps<'Ticket'>) {
       {ticket && (
         <View style={{ paddingTop: 45 }}>
           <Card>
-            <Label style={{ color: colors.green }}>WIN BEAST ZOO</Label>
+            <Label style={{ color: colors.green }}>Zoo Adventure</Label>
             <Title>{ticket.kind} Ticket</Title>
             <Row label="Quantity" value="1 guest" />
             <Row label="Ticket value" value={money(ticket.price)} />

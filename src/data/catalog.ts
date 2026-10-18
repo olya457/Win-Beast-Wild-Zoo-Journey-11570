@@ -5,10 +5,10 @@ export const artwork = {
   entrance: require('../assets/win-beast-zoo-entrance.jpg'),
   onboarding: [
     require('../assets/win-beast-zoo-welcome.png'),
-    require('../assets/win-beast-zoo-entrance.jpg'),
-    require('../assets/win-beast-zoo-waterfall.jpg'),
-    require('../assets/win-beast-zoo-savannah.jpg'),
-    require('../assets/win-beast-zoo-atrium.jpg'),
+    require('../assets/win-beast-zoo-logo.png'),
+    require('../assets/win-beast-zoo-waterfall.png'),
+    require('../assets/win-beast-zoo-map.png'),
+    require('../assets/win-beast-zoo-atrium.png'),
   ],
 };
 export type Dish = {
